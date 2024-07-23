@@ -5,7 +5,7 @@ from psycopg2.extras import RealDictCursor
 DB_NAME = 'soltoken'
 DB_USER = 'soltoken_user'
 DB_PASS = 'XxyppfV1gWfrFhmjUCwks3vU7v1yyOMp'
-DB_HOST = 'dpg-cqfdrciju9rs73brac8g-a'
+DB_HOST = 'dpg-cqfdrciju9rs73brac8g-a.oregon-postgres.render.com'
 DB_PORT = '5432'
 
 def setup_database():
