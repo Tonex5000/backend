@@ -3,7 +3,7 @@ from flask_cors import CORS
 import database
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Endpoint to handle deposits and return the updated balance
 @app.route('/deposit', methods=['POST'])
@@ -12,10 +12,10 @@ def deposit():
     wallet_address = data.get('wallet_address')
     amount = data.get('amount')
     status = data.get('status', 'pending')  # Default status is 'pending'
-
+    
     if not wallet_address or not amount:
         return jsonify({'error': 'Invalid input'}), 400
-
+    
     try:
         # Insert the new deposit
         deposit_record = database.insert_deposit(wallet_address, amount, status)
