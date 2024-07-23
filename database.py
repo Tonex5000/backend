@@ -46,7 +46,6 @@ def get_db_connection():
     return conn
 
 def insert_deposit(wallet_address, amount, status):
-    """Insert a deposit record into the database."""
     conn = get_db_connection()
     try:
         cur = conn.cursor(cursor_factory=RealDictCursor)
@@ -62,6 +61,9 @@ def insert_deposit(wallet_address, amount, status):
         return deposit_record
     except Exception as e:
         conn.rollback()
+        print(f"Error in insert_deposit: {str(e)}")
+        print(f"SQL Query: {insert_query}")
+        print(f"Parameters: wallet_address={wallet_address}, amount={amount}, status={status}")
         raise e
     finally:
         conn.close()
@@ -85,5 +87,18 @@ def get_total_deposited(wallet_address):
     finally:
         conn.close()
 
+def verify_table_exists():
+    conn = get_db_connection()
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM deposit LIMIT 1;")
+        print("Deposit table exists and is accessible.")
+        cur.close()
+    except Exception as e:
+        print(f"Error verifying deposit table: {str(e)}")
+    finally:
+        conn.close()
+
 if __name__ == '__main__':
     setup_database()
+    verify_table_exists()
